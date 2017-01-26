@@ -57,16 +57,15 @@ def calculate_new_image_name_and_path(path_to_original, path_to_new, new_size):
     if path_to_new is None:
         new_image_name_and_path = str(original_filepath) + '__' + str(new_size[0]) + 'x' \
                                   + str(new_size[1]) + str(original_extension)
-        print('1=', new_image_name_and_path)
         return new_image_name_and_path
     new_image_name_and_path = path_to_new
-    print('2=', new_image_name_and_path)
     return new_image_name_and_path
 
 
 def resize_image(image, new_size, new_image_name_and_path):
     out_image = image.resize(new_size)
     out_image.save(new_image_name_and_path)
+    print('Saved to', new_image_name_and_path)
 
 
 if __name__ == '__main__':
