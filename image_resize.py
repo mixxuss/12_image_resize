@@ -18,7 +18,7 @@ def open_image(path_to_original):
         image = Image.open(path_to_original)
         return image
     else:
-        raise FileNotFoundError('File not found, please check path to image')
+        output_error(FileNotFoundError)
 
 
 def calculate_image_ratio(image_size):
@@ -49,23 +49,34 @@ def calculate_new_image_size(image, scale, new_width, new_height):
         new_size = (int(image.size[0] * scale), int(image.size[1] * scale))
         return new_size
     else:
-        raise SyntaxError('Too many arguments given.')
+        output_error(SyntaxError)
 
 
 def calculate_new_image_path(path_to_original, path_to_new, new_size):
     original_filepath, original_extension = os.path.splitext(path_to_original)
-    if path_to_new is None:
-        new_image_name_and_path = str(original_filepath) + '__' + str(new_size[0]) + 'x' \
-                                  + str(new_size[1]) + str(original_extension)
-        return new_image_name_and_path
-    new_image_name_and_path = path_to_new
-    return new_image_name_and_path
+    if not path_to_new:
+        new_image_path = '{}__{}x{}{}'.format(str(original_filepath), str(new_size[0]),
+                                              str(new_size[1]), str(original_extension))
+        return new_image_path
+    new_image_path = path_to_new
+    return new_image_path
 
 
-def resize_image(image, new_size, new_image_name_and_path):
-    out_image = image.resize(new_size)
-    out_image.save(new_image_name_and_path)
-    print('Saved to', new_image_name_and_path)
+def resize_image(image, new_size):
+    return image.resize(new_size)
+
+
+def save_image(resized_image, new_image_path):
+    resized_image.save(new_image_path)
+    print('Saved to', new_image_path)
+
+
+def output_error(error):
+    if error == FileNotFoundError:
+        raise FileNotFoundError('File not found, please check path to image')
+    elif error == SyntaxError:
+        raise SyntaxError('Too many arguments given.')
+
 
 
 if __name__ == '__main__':
@@ -78,5 +89,7 @@ if __name__ == '__main__':
     path_to_new = args.newimage
     image = open_image(args.image)
     new_size = calculate_new_image_size(image, scale, new_width, new_height)
-    new_image_name_and_path = calculate_new_image_path(path_to_original, path_to_new, new_size)
-    resize_image(image, new_size, new_image_name_and_path)
+    print(new_size[0], new_size[1])
+    new_image_path = calculate_new_image_path(path_to_original, path_to_new, new_size)
+    print(new_image_path)
+    save_image(resize_image(image, new_size), new_image_path)
