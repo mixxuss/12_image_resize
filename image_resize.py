@@ -27,32 +27,32 @@ def calculate_image_ratio(image_size):
 
 
 def calc_scale(image_size, new_width, new_height):
-    if new_width is None:
+    if not new_width:
         scale = int(new_height) / image_size[1]
         return scale
-    elif new_height is None:
+    elif not new_height:
         scale = int(new_width) / image_size[0]
         return scale
 
 
 def calculate_new_image_size(image, scale, new_width, new_height):
-    if (scale is None and new_width is None) or (scale is None and new_height is None):
+    if (not scale and not new_width) or (not scale and not new_height):
         scale = calc_scale(image.size, new_width, new_height)
         new_size = (int(image.size[0] * scale), int(image.size[1] * scale))
         return new_size
-    elif new_width is not None and new_height is not None and scale is None:
+    elif new_width and new_height and not scale:
         new_size = (int(new_width), int(new_height))
         if calculate_image_ratio(new_size) != calculate_image_ratio(image.size):
             print('Will be a crooked image')
         return new_size
-    elif scale is not None:
+    elif scale:
         new_size = (int(image.size[0] * scale), int(image.size[1] * scale))
         return new_size
     else:
         raise SyntaxError('Too many arguments given.')
 
 
-def calculate_new_image_name_and_path(path_to_original, path_to_new, new_size):
+def calculate_new_image_path(path_to_original, path_to_new, new_size):
     original_filepath, original_extension = os.path.splitext(path_to_original)
     if path_to_new is None:
         new_image_name_and_path = str(original_filepath) + '__' + str(new_size[0]) + 'x' \
@@ -78,5 +78,5 @@ if __name__ == '__main__':
     path_to_new = args.newimage
     image = open_image(args.image)
     new_size = calculate_new_image_size(image, scale, new_width, new_height)
-    new_image_name_and_path = calculate_new_image_name_and_path(path_to_original, path_to_new, new_size)
+    new_image_name_and_path = calculate_new_image_path(path_to_original, path_to_new, new_size)
     resize_image(image, new_size, new_image_name_and_path)
