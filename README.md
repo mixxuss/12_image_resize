@@ -1,8 +1,12 @@
 # Image Resizer
 
-This program changing size of image
+This program changing size of image specify set by the user
 
-# HOWTO
+# Installing requirements
+
+Packages installing by pip install -r requirements.txt command
+
+# Example
 ```
 usage: image_resize.py [-h] [--width WIDTH] [--height HEIGHT] [--scale SCALE]
                        [--image IMAGE] [--newimage NEWIMAGE]
