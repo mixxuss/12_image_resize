@@ -68,6 +68,9 @@ def resize_image(image, new_size):
 
 def save_image(resized_image, new_image_path):
     resized_image.save(new_image_path)
+
+
+def print_saved_path(new_image_path):
     print('Saved to', new_image_path)
 
 
@@ -85,3 +88,4 @@ if __name__ == '__main__':
     new_image_path = calculate_new_image_path(path_to_original, path_to_new, new_size)
     print(new_image_path)
     save_image(resize_image(image, new_size), new_image_path)
+    print_saved_path(new_image_path)
