@@ -4,7 +4,10 @@ This program changing size of image specify set by the user
 
 # Installing requirements
 
-Packages installing by pip install -r requirements.txt command
+Packages installing by command
+```
+pip install -r requirements.txt
+```
 
 # Example
 ```
